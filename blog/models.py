@@ -5,6 +5,13 @@ class User(models.Model):
     name = models.CharField(max_length=32)
     mail = models.EmailField()
 
+    def __repr__(self):
+        # 主キーとnameを表示させて見やすくする
+        # ex) 1: Alice
+        return "{}: {}".format(self.pk, self.name)
+
+    __str__ = __repr__  # __str__にも同じ関数を適用
+
 
 class Entry(models.Model):
     STATUS_DRAFT = "draft"
@@ -19,10 +26,3 @@ class Entry(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(choices=STATUS_SET, default=STATUS_DRAFT, max_length=8)
     author = models.ForeignKey(User, related_name='entries', on_delete=models.CASCADE)
-
-    def __repr__(self):
-        # 主キーとnameを表示させて見やすくする
-        # ex) 1: Alice
-        return "{}: {}".format(self.pk, self.name)
-
-    __str__ = __repr__  # __str__にも同じ関数を適用
